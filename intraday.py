@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 from datetime import datetime, time, timedelta
 import pytz
 import time as t_sleep
+import uuid
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(page_title="Trend Sniper Algo", page_icon="🎯", layout="wide")
@@ -304,10 +305,12 @@ if run_scanner:
 
             fig.update_layout(title=f"{selected_stock} - Live 15m Chart", height=500, xaxis_rangeslider_visible=False, template="plotly_dark")
             
-            # --- 🔥 THE FIX IS HERE: ADD A UNIQUE KEY ---
-            # Current time ni key ga vadutunam, so prathi sari kotha ID generate avtundi
-            unique_key = f"chart_{datetime.now().strftime('%H%M%S')}" 
-            st.plotly_chart(fig, use_container_width=True, key=unique_key)
+            # --- 🔥 THE PERMANENT FIX ---
+            # Using uuid ensures the key is 100% unique every loop iteration
+            st.plotly_chart(fig, use_container_width=True, key=f"chart_{uuid.uuid4()}") 
+
+        # Refresh Rate
+        t_sleep.sleep(60) # Updates every 1 minute
 
 else:
     st.info("👈 Please Select Sector/Stock and check 'START LIVE SCANNER' in the sidebar.")
