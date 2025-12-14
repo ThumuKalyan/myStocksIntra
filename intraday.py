@@ -303,10 +303,11 @@ if run_scanner:
                 fig.add_hline(y=range_low, line_dash="dash", line_color="red", annotation_text="SL Zone")
 
             fig.update_layout(title=f"{selected_stock} - Live 15m Chart", height=500, xaxis_rangeslider_visible=False, template="plotly_dark")
-            st.plotly_chart(fig, use_container_width=True)
-
-        # Refresh Rate
-        t_sleep.sleep(60) # Updates every 1 minute
+            
+            # --- 🔥 THE FIX IS HERE: ADD A UNIQUE KEY ---
+            # Current time ni key ga vadutunam, so prathi sari kotha ID generate avtundi
+            unique_key = f"chart_{datetime.now().strftime('%H%M%S')}" 
+            st.plotly_chart(fig, use_container_width=True, key=unique_key)
 
 else:
     st.info("👈 Please Select Sector/Stock and check 'START LIVE SCANNER' in the sidebar.")
